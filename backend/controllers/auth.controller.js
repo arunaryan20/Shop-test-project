@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      message: err.message,
+      message: "Internal server error",
     });
   }
 };
@@ -25,9 +25,26 @@ exports.login = async (req, res) => {
       ...data,
     });
   } catch (err) {
-    res.status(401).json({
+    console.log("Error--->", err);
+    res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.createRole = async (req, res) => {
+ try {
+    const result = await authService.createRole(req.body);
+
+    res.json({
+      success: true,
+      result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };

@@ -1,8 +1,7 @@
 const bcryptjs = require("bcryptjs");
 
 const repo = require("../repositories/auth.repository");
-const genereateAccessToken = require("../utils/jwt");
-const generateRefereshToken = require("../utils/jwt");
+const jwtUtils = require("../utils/jwt");
 
 exports.registerOwner = async (data) => {
   const existing = await repo.findByEmail(data.email);
@@ -14,8 +13,8 @@ exports.registerOwner = async (data) => {
     name: data.name,
     email: data.email,
     password: hashedPassword,
-    roleId: data.roleId,
-    shopId: data.shopId,
+    roleId: Number(data.roleId),
+    shopId: Number(data.shopId),
   });
 };
 
@@ -33,8 +32,18 @@ exports.login = async ({ email, password }) => {
     roleId: user.roleId,
   };
 
-  const accessToken = generateAccessToken(payload);
-  const refreshToken = generateRefreshToken(payload);
+  const accessToken = jwtUtils?.genereateAccessToken(payload);
+  const refreshToken = jwtUtils?.generateRefereshToken(payload);
 
   return { user, accessToken, refreshToken };
+};
+
+exports.createRole = async (data) => {
+  const existingRole = await repo.findByEmail(data.name);
+  if (existingRole) {
+    throw new Error("This role already exists");
+  }
+  return repo.createRole({
+    name: data.name
+  });
 };

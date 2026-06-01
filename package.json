@@ -5,9 +5,9 @@
   "main": "electron/main/main.js",
   "scripts": {
     "frontend": "npm --prefix frontend/vite-project run dev",
-  "backend": "npm --prefix backend run dev",
-  "electron": "electron .",
-  "dev": "concurrently -k \"npm run frontend\" \"npm run backend\" \"npm run electron\""
+    "backend": "npm --prefix backend run dev",
+    "electron": "electron .",
+    "dev": "concurrently -k \"npm run frontend\" \"npm run backend\" \"npm run electron\""
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,8 @@
     "concurrently": "^10.0.1",
     "electron": "^42.3.0",
     "wait-on": "^9.0.10"
+  },
+  "dependencies": {
+    "react-hot-toast": "^2.6.0"
   }
 }

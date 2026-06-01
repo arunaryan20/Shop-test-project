@@ -11,14 +11,17 @@ export const useAuthStore = create((set) => ({
 
     try {
       const res = await loginUser(data);
+      console.log("res---->",res);
 
-      localStorage.setItem("token", res.data.accessToken);
+      localStorage.setItem("token", res?.data?.accessToken);
 
       set({
-        user: res.data.user,
-        token: res.data.accessToken,
+        user: res?.data?.user,
+        token: res?.data?.accessToken,
         loading: false,
       });
+      
+      return res;
 
     } catch (err) {
       set({ loading: false });
