@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const env=require("../config/env");
+
 
 const authMiddleware = (req, res, next) => {
   try {
@@ -7,11 +9,8 @@ const authMiddleware = (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
-
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-
-    req.user = decoded; // { id, roleId, shopId }
-
+    const decoded = jwt.verify(token, env.JWT_SECRET);
+    req.user = decoded;
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });
