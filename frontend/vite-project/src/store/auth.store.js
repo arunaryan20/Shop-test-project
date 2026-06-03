@@ -47,7 +47,9 @@ export const useAuthStore = create((set) => ({
       // Optional cleanup
       try {
         await window.electron.logout();
-      } catch {}
+      } catch (err){
+        console.log("Error--->",err);
+      }
 
       toast.error(
         err?.message || err?.response?.data?.message || "Login failed",
