@@ -1,6 +1,14 @@
 const { app } = require("electron");
 const axios = require("axios");
-require("dotenv").config();
+const path = require("path");
+
+const isDev = !app.isPackaged;
+
+require("dotenv").config({
+  path: isDev
+    ? path.join(__dirname, "../../.env") // dev root
+    : path.join(process.resourcesPath, ".env"), // production
+});
 
 const setAppMenu = require("../menu/menuBuilder").setAppMenu;
 const { setLoginStatus } = require("../menu/menuBuilder");
@@ -28,14 +36,11 @@ app.whenReady().then(async () => {
 
     if (!token) return;
 
-    const res = await axios.get(
-      `${process.env.API_URL}/auth/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.get(`${process.env.API_URL}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (res.data?.success) {
       console.log("✅ Auto-login success");
@@ -45,7 +50,6 @@ app.whenReady().then(async () => {
       console.log("❌ Auto-login failed");
       setLoginStatus(false, app);
     }
-
   } catch (err) {
     console.error("❌ Startup auth error:", err.message);
     setLoginStatus(false, app);

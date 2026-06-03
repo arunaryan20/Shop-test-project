@@ -52,7 +52,7 @@ export const useAuthStore = create((set) => ({
       }
 
       toast.error(
-        err?.message || err?.response?.data?.message || "Login failed",
+        err?.response?.data?.message || "Login failed",
       );
 
       return null;

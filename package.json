@@ -19,6 +19,9 @@
     "directories": {
       "output": "release"
     },
+    "extraResources": [
+      ".env"
+    ],
     "files": [
       "electron/**/*",
       "frontend/vite-project/dist/**/*",

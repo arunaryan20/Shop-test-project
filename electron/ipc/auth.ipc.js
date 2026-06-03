@@ -42,7 +42,7 @@ module.exports = (app) => {
         setLoginStatus(false, app);
         return { valid: false };
       }
-      const API_URL = process.env.API_URL || "http://localhost:8000/api";
+      const API_URL = process.env.API_URL;
       const res = await axios.get(`${API_URL}/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,

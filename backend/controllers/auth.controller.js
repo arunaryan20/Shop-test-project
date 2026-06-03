@@ -66,12 +66,10 @@ exports.login = async (req, res) => {
     };
     return sendResponse(res, 200, responseData, "Login successful");
   } catch (err) {
-    return sendResponse(
-      res,
-      500,
-      null,
-      err?.issues[0]?.message || "Internal server error",
-    );
+    if (err?.issues?.length > 0) {
+      return sendResponse(res, 400, null, err.issues[0].message);
+    }
+    return sendResponse(res, 500, null, "Internal server error");
   }
 };
 
@@ -91,15 +89,10 @@ exports.electronLogin = async (req, res) => {
     }
     return res.json({
       success: true,
-      user: userData
+      user: userData,
     });
   } catch (err) {
-    return sendResponse(
-      res,
-      500,
-      null,
-      "Internal server error",
-    );
+    return sendResponse(res, 500, null, "Internal server error");
   }
 };
 
